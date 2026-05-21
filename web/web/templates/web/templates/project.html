@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luarmor - {{ project_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>📌 Projet : {{ project_name }}</h1>
+    </header>
+    <main>
+        <div class="stats">
+            <div class="stat-card">
+                <h3>👥 Utilisateurs</h3>
+                <p>{{ total_users }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>🔑 Clés</h3>
+                <p>{{ total_keys }}</p>
+            </div>
+        </div>
+        <div class="actions">
+            <p>Utilise <code>/panel {{ project_name }}</code> sur Discord pour accéder au panneau de contrôle.</p>
+        </div>
+    </main>
+</body>
+</html>
