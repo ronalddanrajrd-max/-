@@ -1,0 +1,10 @@
+{
+  "services": [
+    {
+      "name": "luarmor-bot",
+      "type": "python",
+      "startCommand": "python main.py",
+      "installDependencies": true
+    }
+  ]
+}
