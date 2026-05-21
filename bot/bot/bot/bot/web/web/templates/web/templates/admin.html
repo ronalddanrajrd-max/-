@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luarmor - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>🔧 Panneau Admin</h1>
+    </header>
+
+    <main>
+        <h2>Créer un projet</h2>
+        <form method="POST">
+            <input type="text" name="project_name" placeholder="Nom du projet" required>
+            <button type="submit" name="action" value="create_project">Créer</button>
+        </form>
+
+        <h2>Générer une clé</h2>
+        <form method="POST">
+            <select name="project_name" required>
+                {% for project in projects %}
+                    <option value="{{ project }}">{{ project }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" name="action" value="generate_key">Générer une clé</button>
+        </form>
+
+        <div class="projects">
+            <h2>Projets existants</h2>
+            {% for project in projects %}
+                <div class="project-card">
+                    <h3>{{ project }}</h3>
+                    <a href="{{ url_for('project', project_name=project) }}">Voir</a>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
