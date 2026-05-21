@@ -3,7 +3,14 @@ import discord
 from discord.ext import commands
 import psycopg2
 
-# 1. Récupérer les variables Railway
+# 1. Affiche TOUTES les variables d'environnement (pour débogage)
+print("\n--- VARIABLES D'ENVIRONNEMENT ---")
+for key, value in os.environ.items():
+    if key.startswith("PG") or key == "DISCORD_TOKEN":
+        print(f"{key}: {value}")
+print("--------------------------------\n")
+
+# 2. Récupère les variables Railway
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 PGHOST = os.getenv("PGHOST")
 PGPORT = os.getenv("PGPORT")
@@ -11,18 +18,17 @@ PGUSER = os.getenv("PGUSER")
 PGPASSWORD = os.getenv("PGPASSWORD")
 PGDATABASE = os.getenv("PGDATABASE")
 
-# 2. Vérifier que les variables existent
-print("--- Variables Railway ---")
-print(f"PGHOST: {PGHOST}")
-print(f"PGPORT: {PGPORT}")
-print(f"PGUSER: {PGUSER}")
-print(f"PGDATABASE: {PGDATABASE}")
-print("--------------------------")
+# 3. Vérifie que PGHOST n'est PAS "localhost"
+if PGHOST == "localhost" or PGHOST is None:
+    raise ValueError(
+        "❌ ERREUR: PGHOST est 'localhost' ou vide ! "
+        "Vérifie que tu as bien ajouté un service PostgreSQL dans Railway."
+    )
 
-# 3. Connexion à PostgreSQL
+# 4. Connexion à PostgreSQL
 try:
     conn = psycopg2.connect(
-        host=PGHOST,  # ⚠️ PAS "localhost" !
+        host=PGHOST,  # ⚠️ DOIT être l'hôte Railway (ex: containers-us-west-123.railway.app)
         port=PGPORT,
         user=PGUSER,
         password=PGPASSWORD,
@@ -31,23 +37,15 @@ try:
     print("✅ Connexion à PostgreSQL réussie !")
 except Exception as e:
     print(f"❌ ERREUR PostgreSQL: {e}")
-    print("Le bot va s'arrêter.")
-    exit(1)  # Arrête le bot si PostgreSQL échoue
+    exit(1)  # Arrête le bot si la connexion échoue
 
-# 4. Initialiser Discord
+# 5. Initialise Discord
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# 5. Commande de test
-@bot.command()
-async def test(ctx):
-    await ctx.send("✅ Bot fonctionnel !")
-
-# 6. Démarrer le bot
 @bot.event
 async def on_ready():
-    print(f"Bot connecté: {bot.user}")
-    await bot.tree.sync()
+    print(f"✅ Bot connecté: {bot.user}")
 
 bot.run(DISCORD_TOKEN)
