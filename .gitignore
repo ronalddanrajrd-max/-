@@ -1,0 +1,19 @@
+# Environnement
+.env
+
+# Base de données locale
+*.db
+/tmp/
+
+# Fichiers Python temporaires
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Fichiers IDE
+.idea/
+.vscode/
+.DS_Store
+
+# Logs
+*.log
