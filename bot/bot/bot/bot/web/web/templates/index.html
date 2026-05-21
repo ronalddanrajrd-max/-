@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luarmor Clone - Accueil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>🛡️ Luarmor Clone</h1>
+        <p>Gère tes scripts Lua comme un pro !</p>
+    </header>
+
+    <main>
+        <h2>Projets disponibles</h2>
+        <div class="projects">
+            {% for project in projects %}
+                <a href="{{ url_for('project', project_name=project) }}" class="project-card">
+                    <h3>{{ project }}</h3>
+                </a>
+            {% endfor %}
+        </div>
+        <a href="{{ url_for('admin') }}" class="admin-link">Panneau Admin</a>
+    </main>
+</body>
+</html>
